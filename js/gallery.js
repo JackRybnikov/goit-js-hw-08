@@ -88,10 +88,11 @@ const imagesList = document.querySelectorAll(".gallery-item");
 
 galleryList.onclick = function(event) {
     event.preventDefault();
-    console.log(event.target.dataset.source);
-    const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}" max-width="100%" max-height="100%" alt="${event.target.alt}">
-    `)
-
-    instance.show();
+    if (event.target.nodeName === "IMG") {
+        console.log(event.target.dataset.source);
+        const instance = basicLightbox.create(`
+        <img src="${event.target.dataset.source}" max-width="100%" max-height="100%" alt="${event.target.alt}">
+        `)
+        instance.show();
+    }
 }
