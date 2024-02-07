@@ -64,7 +64,12 @@ const images = [
     },
 ];
 
+const body = document.querySelector("body");
 const galleryList = document.querySelector(".gallery");
+
+let instance = basicLightbox.create(`
+<img src="" alt="">
+`);
 
 const markup = images.map(image => {
     const {preview: small, original: big, description: alt} = image;
@@ -90,9 +95,15 @@ galleryList.onclick = function(event) {
     event.preventDefault();
     if (event.target.nodeName === "IMG") {
         console.log(event.target.dataset.source);
-        const instance = basicLightbox.create(`
-        <img src="${event.target.dataset.source}" max-width="100%" max-height="100%" alt="${event.target.alt}">
-        `)
+        instance = basicLightbox.create(`
+        <img src="${event.target.dataset.source}" alt="${event.target.alt}">
+        `);
         instance.show();
     }
 }
+
+body.addEventListener("keydown", (event) =>{
+    if (event.key === "Escape" && basicLightbox.visible()) {
+        instance.close();
+    }
+});
